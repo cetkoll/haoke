@@ -37,6 +37,7 @@ export default {
   height: 20px;
 }
 .myReleaseHouse {
+  font-size: 14px;
   padding-top: 30px;
   text-align: center;
   .releaseHouse {

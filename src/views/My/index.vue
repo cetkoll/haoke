@@ -1,7 +1,17 @@
 <template>
   <div class="main">
     <div class="myTotal">
-      <van-image width="90%" src="http://liufusong.top:8080/img/avatar.png" />
+      <van-image
+        width="90%"
+        :src="'http://liufusong.top:8080' + myInfo.avatar"
+        v-if="$store.state.haokeUser && $store.state.haokeUser.token"
+      />
+      <van-image
+        v-else
+        width="90%"
+        src="http://liufusong.top:8080/img/profile/bg.png
+"
+      />
     </div>
     <van-grid column-num="3" icon-size="20px">
       <van-grid-item icon="star-o" text="我的收藏" to="/collection" />
@@ -20,6 +30,12 @@
     <div class="focus">
       <div class="myProfile">
         <van-image
+          v-if="$store.state.haokeUser && $store.state.haokeUser.token"
+          width="100%"
+          :src="'http://liufusong.top:8080' + myInfo.avatar"
+        />
+        <van-image
+          v-else
           width="100%"
           src="http://liufusong.top:8080/img/profile/avatar.png"
         />
@@ -28,7 +44,7 @@
         class="logout"
         v-if="$store.state.haokeUser && $store.state.haokeUser.token"
       >
-        <p class="myName">好客_464232</p>
+        <p class="myName">{{ myInfo.nickname }}</p>
         <van-button type="primary" @click="myBack">退出</van-button>
         <p class="userData">编辑个人资料<van-icon name="play" /></p>
       </div>
@@ -43,12 +59,14 @@
 </template>
 
 <script>
-import { getLogout } from '@/api/logout'
+import { getLogout, getMyInfo } from '@/api/my'
 export default {
-  created () { },
+  created () {
+    this.getMyInfo()
+  },
   data () {
     return {
-      flag: false
+      myInfo: []
     }
   },
   methods: {
@@ -72,6 +90,15 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    async getMyInfo () {
+      try {
+        const res = await getMyInfo()
+        this.myInfo = res.data.body
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   computed: {},
@@ -91,6 +118,7 @@ export default {
   position: relative;
 }
 .myTotal {
+  height: 340px;
   text-align: center;
 }
 .advertising {

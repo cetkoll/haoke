@@ -6,3 +6,8 @@ export const getLogout = () => {
 
   })
 }
+export const getMyInfo = () => {
+  return request({
+    url: 'user'
+  })
+}
