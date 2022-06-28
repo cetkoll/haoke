@@ -1,10 +1,12 @@
 <template>
-  <div>123</div>
+<div>
+    登录页面
+</div>
 </template>
 
 <script>
 export default {
-  created () { },
+  created () {},
   data () {
     return {}
   },
@@ -16,4 +18,6 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

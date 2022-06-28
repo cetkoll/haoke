@@ -1,6 +1,11 @@
 <template>
   <div>
-    <router-view></router-view>
+    <van-nav-bar
+      title="收藏列表"
+      left-text
+      left-arrow
+      @click-left="$router.push('/my')"
+    />
   </div>
 </template>
 
