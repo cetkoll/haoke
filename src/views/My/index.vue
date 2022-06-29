@@ -13,7 +13,7 @@
 "
       />
     </div>
-    <van-grid column-num="3" icon-size="20px">
+    <van-grid column-num="3" icon-size="20px" :border="false">
       <van-grid-item icon="star-o" text="我的收藏" to="/collection" />
       <van-grid-item icon="wap-home-o" text="我的出租" to="/rent" />
       <van-grid-item icon="clock-o" text="看房记录" />

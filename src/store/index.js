@@ -8,13 +8,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    haokeUser: {}
+    haokeUser: {},
+    nowCity: '北京',
+    nowCityId: 'AREA|88cff55c-aaa4-e2e0'
   },
   getters: {
   },
   mutations: {
     setToken (state, payload) {
       state.haokeUser = payload
+    },
+    changeNowCity (state, payload) {
+      state.nowCity = payload
+    },
+    changeNowCityId (state, payload) {
+      state.nowCityId = payload
     }
   },
   actions: {

@@ -6,29 +6,18 @@
       indicator-color="white"
       height="212"
     >
-      <van-swipe-item
-        ><van-image
+      <van-swipe-item v-for="item in mySwiper" :key="item.id">
+        <van-image
           width="100%"
           height="100%"
-          src="http://liufusong.top:8080/img/swiper/1.png"
-      /></van-swipe-item>
-      <van-swipe-item
-        ><van-image
-          width="100%"
-          height="100%"
-          src="http://liufusong.top:8080/img/swiper/2.png"
-      /></van-swipe-item>
-      <van-swipe-item
-        ><van-image
-          width="100%"
-          height="100%"
-          src="http://liufusong.top:8080/img/swiper/3.png"
-      /></van-swipe-item>
+          :src="'http://liufusong.top:8080' + item.imgSrc"
+        />
+      </van-swipe-item>
     </van-swipe>
     <div class="headers">
       <div class="searchHeader">
-        <div class="address">
-          <p>北京</p>
+        <div class="address" @click="$router.push('city')">
+          <p>{{$store.state.nowCity}}</p>
           <van-icon name="arrow-down" />
         </div>
         <van-icon name="search" />
@@ -36,18 +25,90 @@
       </div>
       <van-icon name="map-marked" />
     </div>
+    <div class="myPannel">
+      <van-grid :border="false">
+        <van-grid-item icon="wap-home-o" text="整租"></van-grid-item>
+        <van-grid-item icon="friends-o" text="合租" />
+        <van-grid-item icon="location-o" text="地图找房" />
+        <van-grid-item icon="home-o" text="去出租" />
+      </van-grid>
+    </div>
+    <div class="title">
+      <h4>租房小组</h4>
+      <p>更多</p>
+    </div>
+    <div class="mygroupPanel">
+      <div class="myGroup">
+        <div class="groupPanel">
+          <div class="imgs">
+            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
+          </div>
+          <div class="text">
+            <div class="top">1111111</div>
+            <div class="bottom">1111111</div>
+          </div>
+        </div>
+      </div>
+      <div class="myGroup">
+        <div class="groupPanel">
+          <div class="imgs">
+            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
+          </div>
+          <div class="text">
+            <div class="top">1111111</div>
+            <div class="bottom">1111111</div>
+          </div>
+        </div>
+      </div>
+      <div class="myGroup">
+        <div class="groupPanel">
+          <div class="imgs">
+            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
+          </div>
+          <div class="text">
+            <div class="top">1111111</div>
+            <div class="bottom">1111111</div>
+          </div>
+        </div>
+      </div>
+      <div class="myGroup">
+        <div class="groupPanel">
+          <div class="imgs">
+            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
+          </div>
+          <div class="text">
+            <div class="top">1111111</div>
+            <div class="bottom">1111111</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { getSwiper } from '@/api/home'
 export default {
-  created () { },
+  name: 'home',
+  created () {
+    this.getSwiper()
+  },
   data () {
     return {
+      mySwiper: []
 
     }
   },
-  methods: {},
+  methods: {
+    async getSwiper () {
+      try {
+        const res = await getSwiper()
+        this.mySwiper = res.data.body
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
   computed: {},
   watch: {},
   filters: {},
@@ -58,6 +119,7 @@ export default {
 <style scoped lang="less">
 .main {
   position: relative;
+  background-color: #f6f5f6;
 }
 .my-swipe .van-swipe-item {
   color: #fff;
@@ -105,9 +167,57 @@ export default {
       color: #9c9fa1;
     }
   }
-  .van-icon-map-marked{
+  .van-icon-map-marked {
     margin-left: 10px;
     color: #fff;
+  }
+}
+.myPannel {
+  margin-top: 5px;
+  /deep/ .van-grid-item__text {
+    font-size: 14px;
+    color: #333;
+  }
+  /deep/ .van-grid-item__icon {
+    font-size: 30px;
+  }
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  h4 {
+    font-size: 15px;
+    color: #333;
+  }
+  p {
+    font-size: 14px;
+    color: #787d82;
+  }
+}
+.mygroupPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  flex-flow: wrap;
+  .groupPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 165px;
+    height: 60px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    .imgs {
+      width: 50px;
+      height: 50px;
+      background-color: pink;
+    }
   }
 }
 </style>

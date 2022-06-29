@@ -9,6 +9,7 @@ const Login = () => import('@/views/Login')
 const Registe = () => import('@/views/Registe')
 const Collection = () => import('@/views/Collection')
 const Rent = () => import('@/views/Rent')
+const City = () => import('@/views/Home/components/City.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,7 +19,10 @@ const routes = [
     redirect: '/home',
     children: [
       { path: 'find', component: Find },
-      { path: 'home', component: Home },
+      {
+        path: 'home',
+        component: Home
+      },
       { path: 'information', component: Information },
       { path: 'my', component: My }
     ]
@@ -27,7 +31,8 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/registe', component: Registe },
   { path: '/collection', component: Collection },
-  { path: '/rent', component: Rent }
+  { path: '/rent', component: Rent },
+  { path: '/city', component: City }
 ]
 
 const router = new VueRouter({
