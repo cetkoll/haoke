@@ -1,10 +1,16 @@
 <template>
   <div class="main">
-    <van-nav-bar title="城市列表" left-arrow fixed @click-left="$router.back()" />
+    <van-nav-bar
+      title="城市列表"
+      left-arrow
+      fixed
+      @click-left="$router.back()"
+    />
     <van-index-bar :sticky="false">
       <van-index-anchor index="1">当前城市</van-index-anchor>
       <van-cell :title="$store.state.nowCity" />
     </van-index-bar>
+
     <van-index-bar :sticky="false">
       <van-index-anchor index="1">热门城市</van-index-anchor>
       <van-cell
@@ -14,6 +20,7 @@
         @click="changeCity(item)"
       />
     </van-index-bar>
+
     <van-index-bar :sticky="false">
       <van-index-anchor
         :index="index"
@@ -58,17 +65,26 @@ export default {
     async allCity () {
       try {
         const res = await allCity()
+        // 将热门城市过滤掉
+        const lastRes = res.data.body.filter(item => {
+          return this.hotCity.every(item1 => item1.label !== item.label)
+        })
+        // 将热门城市过滤掉
         const cityName = {}
+        // 对['A', 'B', 'C', 'D'...]数组遍历
         this.indexList.forEach(item => {
+          // item对应每一个 即 A B C D...
           cityName[item] = []
-          res.data.body.forEach(el => {
+          lastRes.forEach(el => {
+            // 将筛选后的res返回值进行遍历 提取每一项的拼音的第一个字母
             const first = el.pinyin.substring(0, 1).toUpperCase()
+            // 当提取出的字母等于当前的Key值的时候 就将当前这个对象存进去
             if (first === item) {
               cityName[item].push(el)
             }
           })
         })
-
+        // 存在data中 具有响应式效果
         this.$nextTick(() => {
           this.getallCity = cityName
         })

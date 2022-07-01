@@ -20,3 +20,12 @@ export const allCity = () => {
     }
   })
 }
+
+export const houseGroup = (id) => {
+  return request({
+    url: 'home/groups',
+    params: {
+      area: id
+    }
+  })
+}

@@ -22,3 +22,11 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+{
+    a:[{},{}],
+    b:[{},{}],
+    c
+}
+v-for item index
+item key index

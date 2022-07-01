@@ -17,7 +17,7 @@
     <div class="headers">
       <div class="searchHeader">
         <div class="address" @click="$router.push('city')">
-          <p>{{$store.state.nowCity}}</p>
+          <p>{{ $store.state.nowCity }}</p>
           <van-icon name="arrow-down" />
         </div>
         <van-icon name="search" />
@@ -38,47 +38,14 @@
       <p>更多</p>
     </div>
     <div class="mygroupPanel">
-      <div class="myGroup">
+      <div class="myGroup" v-for="item in myHouseGroup" :key="item.id">
         <div class="groupPanel">
           <div class="imgs">
-            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
+            <img :src="'http://liufusong.top:8080' + item.imgSrc" alt="" />
           </div>
           <div class="text">
-            <div class="top">1111111</div>
-            <div class="bottom">1111111</div>
-          </div>
-        </div>
-      </div>
-      <div class="myGroup">
-        <div class="groupPanel">
-          <div class="imgs">
-            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
-          </div>
-          <div class="text">
-            <div class="top">1111111</div>
-            <div class="bottom">1111111</div>
-          </div>
-        </div>
-      </div>
-      <div class="myGroup">
-        <div class="groupPanel">
-          <div class="imgs">
-            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
-          </div>
-          <div class="text">
-            <div class="top">1111111</div>
-            <div class="bottom">1111111</div>
-          </div>
-        </div>
-      </div>
-      <div class="myGroup">
-        <div class="groupPanel">
-          <div class="imgs">
-            <!-- <img src="http://liufusong.top:8080/img/swiper/3.png" alt=""> -->
-          </div>
-          <div class="text">
-            <div class="top">1111111</div>
-            <div class="bottom">1111111</div>
+            <div class="top">{{ item.title }}</div>
+            <div class="bottom">{{ item.desc }}</div>
           </div>
         </div>
       </div>
@@ -87,15 +54,17 @@
 </template>
 
 <script>
-import { getSwiper } from '@/api/home'
+import { getSwiper, houseGroup } from '@/api/home'
 export default {
   name: 'home',
   created () {
     this.getSwiper()
+    this.gethouseGroup()
   },
   data () {
     return {
-      mySwiper: []
+      mySwiper: [],
+      myHouseGroup: []
 
     }
   },
@@ -104,6 +73,14 @@ export default {
       try {
         const res = await getSwiper()
         this.mySwiper = res.data.body
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async gethouseGroup () {
+      try {
+        const res = await houseGroup()
+        this.myHouseGroup = res.data.body
       } catch (error) {
         console.log(error)
       }
@@ -202,22 +179,32 @@ export default {
   align-items: center;
   padding: 0 12px;
   flex-flow: wrap;
-  .groupPanel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 165px;
-    height: 60px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 0 5px;
-    box-sizing: border-box;
-    background-color: #fff;
-    .imgs {
-      width: 50px;
-      height: 50px;
-      background-color: pink;
+  .myGroup {
+    .groupPanel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 170px;
+      height: 60px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 0 5px;
+      box-sizing: border-box;
+      background-color: #fff;
+      .imgs {
+        width: 50px;
+        height: 50px;
+        padding-left: 5px;
+        img {
+          height: 100%;
+        }
+      }
     }
   }
+}
+.text {
+  padding-right: 15px;
+  font-size: 14px;
+  color: #333;
 }
 </style>
