@@ -35,21 +35,30 @@
         <van-icon name="arrow-down" />
       </div>
     </div>
-    <van-popup
-      v-model="areashow"
-      duration="0.2"
-      :style="{ height: '45%' }"
-      >区域页面1</van-popup
-    >
-    <van-popup v-model="wayshow" position="top" :style="{ height: '45%' }"
-      >方式页面1</van-popup
-    >
-    <van-popup v-model="moneyshow" position="top" :style="{ height: '45%' }"
-      >租金页面1</van-popup
-    >
-    <van-popup v-model="chooseshow" position="top" :style="{ height: '45%' }"
-      >筛选页面1</van-popup
-    >
+    <van-popup v-model="areashow" duration="0.2" :style="{ height: '45%' }">
+      <div class="fixdheader">
+        <div class="choose" :class="{ active: active === 0 }" @click="area">
+          <p>区域</p>
+          <van-icon name="arrow-down" />
+        </div>
+        <div class="choose" :class="{ active: active === 1 }" @click="way">
+          <p>方式</p>
+          <van-icon name="arrow-down" />
+        </div>
+        <div class="choose" :class="{ active: active === 2 }" @click="money">
+          <p>租金</p>
+          <van-icon name="arrow-down" />
+        </div>
+        <div class="choose" :class="{ active: active === 3 }" @click="choose">
+          <p>筛选</p>
+          <van-icon name="arrow-down" />
+        </div>
+      </div>
+      <div class="area" v-show="active === 0">区域页面1</div>
+      <div class="area" v-show="active === 1">区域页面2</div>
+      <div class="area" v-show="active === 2">区域页面3</div>
+      <div class="area" v-show="active === 3">区域页面4</div>
+    </van-popup>
   </div>
 </template>
 
@@ -59,10 +68,7 @@ export default {
   data () {
     return {
       active: 0,
-      areashow: false,
-      wayshow: false,
-      moneyshow: false,
-      chooseshow: false
+      areashow: false
     }
   },
   methods: {
@@ -72,15 +78,15 @@ export default {
     },
     way () {
       this.active = 1
-      this.wayshow = true
+      this.areashow = true
     },
     money () {
       this.active = 2
-      this.moneyshow = true
+      this.areashow = true
     },
     choose () {
       this.active = 3
-      this.chooseshow = true
+      this.areashow = true
     }
 
   },
@@ -92,7 +98,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.main{
+.main {
   height: 667px;
   background-color: pink;
 }
@@ -174,6 +180,6 @@ export default {
 .van-popup {
   width: 100%;
   height: 50%;
-  margin-top: -93px;
+  margin-top: -133px;
 }
 </style>
