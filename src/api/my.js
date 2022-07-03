@@ -11,3 +11,9 @@ export const getMyInfo = () => {
     url: 'user'
   })
 }
+
+export const getMyFavorite = () => {
+  return request({
+    url: '/user/favorites'
+  })
+}

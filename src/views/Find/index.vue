@@ -54,7 +54,14 @@
           <van-icon name="arrow-down" />
         </div>
       </div>
-      <div class="area" v-show="active === 0">区域页面1</div>
+      <div class="area" v-show="active === 0">
+        <van-picker
+          show-toolbar
+          title="标题"
+          :columns="columns"
+          @confirm="onConfirm"
+        />
+      </div>
       <div class="area" v-show="active === 1">区域页面2</div>
       <div class="area" v-show="active === 2">区域页面3</div>
       <div class="area" v-show="active === 3">区域页面4</div>
@@ -63,12 +70,38 @@
 </template>
 
 <script>
+import { getCitySon, allCitySon } from '@/api/find'
+
 export default {
-  created () { },
+  created () {
+    this.getCitySon()
+    this.getAllCitySon()
+  },
   data () {
     return {
       active: 0,
-      areashow: false
+      areashow: false,
+      columns: [
+        {
+          text: '区域',
+          children: [{ text: '不限', children: [''] }
+          ]
+        },
+        {
+          text: '地铁',
+          children: [
+            {
+              text: '福州',
+              children: [{ text: '鼓楼区' }, { text: '台江区' }]
+            },
+            {
+              text: '厦门',
+              children: [{ text: '思明区' }, { text: '海沧区' }]
+            }
+          ]
+        }
+      ],
+      secondCity: []
     }
   },
   methods: {
@@ -87,8 +120,39 @@ export default {
     choose () {
       this.active = 3
       this.areashow = true
+    },
+    async getCitySon () {
+      try {
+        const res = await getCitySon(this.$store.state.nowCityId)
+        this.secondCity = res.data.body
+        res.data.body.forEach(item => {
+          const obj = { text: item.label, children: ['不限'] }
+          this.columns[0].children.push(obj)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    onConfirm (value, index) {
+      console.log(value, index)
+      console.log(this.secondCity[index[1] - 1].value)
+      this.$store.commit('setActiveCity', this.secondCity[index[1] - 1].value)
+    },
+    async getAllCitySon () {
+      // let index = 1
+      // this.secondCity.forEach(async item => {
+      try {
+        const res = await allCitySon(this.$store.state.activeCity)
+        console.log(res)
+        // res.body.forEach(item1 => {
+        //   this.columns[0].children[index].children.push(item1.label)
+        // })
+      } catch (error) {
+        console.log(error)
+      }
+      // })
+      // index++
     }
-
   },
   computed: {},
   watch: {},
@@ -100,7 +164,6 @@ export default {
 <style scoped lang="less">
 .main {
   height: 667px;
-  background-color: pink;
 }
 .headers {
   background-color: #21b97a;
@@ -159,6 +222,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  border-bottom: 1px solid rgb(238, 238, 238);
   width: 375px;
   height: 40px;
   .choose {
@@ -180,6 +244,34 @@ export default {
 .van-popup {
   width: 100%;
   height: 50%;
-  margin-top: -133px;
+  margin-top: -134px;
+  overflow: hidden;
+}
+// /deep/.van-picker__toolbar {
+//   display: none;
+// }
+.btn {
+  position: absolute;
+  display: flex;
+  border-top: 1px solid rgb(238, 238, 238);
+  width: 100%;
+  bottom: 0;
+  z-index: 1;
+  height: 50px;
+  .nosure {
+    width: 125px;
+    color: #21b97a;
+    line-height: 50px;
+    text-align: center;
+    font-size: 18px;
+  }
+  .sure {
+    color: #fff;
+    width: 100%;
+    font-size: 18px;
+    background-color: #21b97a;
+    text-align: center;
+    line-height: 50px;
+  }
 }
 </style>

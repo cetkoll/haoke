@@ -29,3 +29,9 @@ export const houseGroup = (id) => {
     }
   })
 }
+
+export const houseParams = () => {
+  return request({
+    url: 'houses/params'
+  })
+}

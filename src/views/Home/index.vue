@@ -30,7 +30,7 @@
         <van-grid-item icon="wap-home-o" text="整租"></van-grid-item>
         <van-grid-item icon="friends-o" text="合租" />
         <van-grid-item icon="location-o" text="地图找房" />
-        <van-grid-item icon="home-o" text="去出租" />
+        <van-grid-item icon="home-o" @click="$router.push('/goRent')" text="去出租" />
       </van-grid>
     </div>
     <div class="title">
