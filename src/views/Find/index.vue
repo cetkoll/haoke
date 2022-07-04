@@ -151,12 +151,12 @@ export default {
             res.data.body.forEach(item1 => {
               this.columns[0].children[index + 1].children.push(item1.label)
             })
+            this.$nextTick(() => {
+              this.$store.commit('setResData', this.columns)
+            })
           } catch (error) {
             console.log(error)
           }
-        })
-        this.$nextTick(() => {
-          this.$store.commit('setResData', this.columns)
         })
       }
     }
