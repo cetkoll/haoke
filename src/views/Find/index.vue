@@ -75,7 +75,6 @@ import { getCitySon, allCitySon } from '@/api/find'
 export default {
   created () {
     this.getCitySon()
-    this.getAllCitySon()
   },
   data () {
     return {
@@ -101,7 +100,8 @@ export default {
           ]
         }
       ],
-      secondCity: []
+      secondCity: [],
+      allCityArea: []
     }
   },
   methods: {
@@ -132,26 +132,33 @@ export default {
       } catch (error) {
         console.log(error)
       }
+      this.getAllCitySon()
     },
     onConfirm (value, index) {
       console.log(value, index)
       console.log(this.secondCity[index[1] - 1].value)
       this.$store.commit('setActiveCity', this.secondCity[index[1] - 1].value)
     },
-    async getAllCitySon () {
-      // let index = 1
-      // this.secondCity.forEach(async item => {
-      try {
-        const res = await allCitySon(this.$store.state.activeCity)
-        console.log(res)
-        // res.body.forEach(item1 => {
-        //   this.columns[0].children[index].children.push(item1.label)
-        // })
-      } catch (error) {
-        console.log(error)
+    getAllCitySon () {
+      if (this.$store.state.resData.length !== 0) {
+        this.columns = this.$store.state.resData
+      } else {
+        this.$store.commit('setResData', this.columns)
+        this.secondCity.forEach(async (item, index) => {
+          try {
+            const res = await allCitySon(item.value)
+            // this.allCityArea.push(res.data.body)
+            res.data.body.forEach(item1 => {
+              this.columns[0].children[index + 1].children.push(item1.label)
+            })
+          } catch (error) {
+            console.log(error)
+          }
+        })
+        this.$nextTick(() => {
+          this.$store.commit('setResData', this.columns)
+        })
       }
-      // })
-      // index++
     }
   },
   computed: {},

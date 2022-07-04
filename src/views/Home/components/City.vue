@@ -95,11 +95,14 @@ export default {
     changeCity (item) {
       this.$store.commit('changeNowCity', item.label)
       this.$store.commit('changeNowCityId', item.value)
+      this.$store.commit('setResData', [])
       this.$router.back()
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+
+  },
   filters: {},
   components: {}
 }

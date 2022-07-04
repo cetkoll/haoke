@@ -11,7 +11,8 @@ export default new Vuex.Store({
     haokeUser: {},
     nowCity: '北京',
     nowCityId: 'AREA|88cff55c-aaa4-e2e0',
-    activeCity: 'AREA|0dd58113-90ab-4d85'
+    activeCity: 'AREA|0dd58113-90ab-4d85',
+    resData: []
   },
   getters: {
   },
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     setActiveCity (state, payload) {
       state.activeCity = payload
+    },
+    setResData (state, payload) {
+      state.resData = payload
     }
   },
   actions: {
