@@ -16,3 +16,9 @@ export const allCitySon = (id) => {
     }
   })
 }
+export const getMyHouse = (params) => {
+  return request({
+    url: '/houses',
+    params
+  })
+}

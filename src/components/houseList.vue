@@ -1,43 +1,51 @@
 <template>
   <div>
-    <van-nav-bar
-      title="收藏列表"
-      left-text
-      left-arrow
-      @click-left="$router.push('/my')"
-    />
-    <houseList :list="list"></houseList>
+    <div class="list" v-for="(item, index) in list" :key="index">
+      <div class="photo">
+        <img :src="'http://liufusong.top:8080' + item.houseImg" alt="" />
+      </div>
+      <div class="text">
+        <h4 class="van-ellipsis">{{ item.title }}</h4>
+        <p>{{ item.desc }}</p>
+        <div class="describe">
+          <div
+            class="descibeSon"
+            v-for="(item1, index1) in item.tags"
+            :key="index1"
+          >
+            {{ item1 }}
+          </div>
+        </div>
+        <p class="money">
+          <span>{{ item.price }}</span
+          >元/月
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import houseList from '@/components/houseList'
-import { getMyFavorite } from '@/api/my'
 export default {
-  async created () {
-    try {
-      const res = await getMyFavorite()
-      this.list = res.data.body
-    } catch (error) {
-      console.log(error)
+  props: {
+    list: {
+      type: Array,
+      required: true
     }
   },
+  created () { },
   data () {
-    return {
-      list: []
-    }
+    return {}
   },
   methods: {},
   computed: {},
   watch: {},
   filters: {},
-  components: {
-    houseList
-  }
+  components: {}
 }
 </script>
 
-<style scoped lang="less">
+<style scoped lang='less'>
 .list {
   display: flex;
   align-items: center;
