@@ -11,6 +11,7 @@ const Collection = () => import('@/views/Collection')
 const Rent = () => import('@/views/Rent')
 const City = () => import('@/views/Home/components/City.vue')
 const GoRent = () => import('@/views/Home/components/GoRent.vue')
+const Adress = () => import('@/views/Home/components/Adress.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,7 +35,8 @@ const routes = [
   { path: '/collection', component: Collection },
   { path: '/rent', component: Rent },
   { path: '/city', component: City },
-  { path: '/goRent', component: GoRent }
+  { path: '/goRent', component: GoRent },
+  { path: '/adress', component: Adress }
 ]
 
 const router = new VueRouter({

@@ -35,3 +35,13 @@ export const houseParams = () => {
     url: 'houses/params'
   })
 }
+
+export const getAdress = ({ id, name }) => {
+  return request({
+    url: 'area/community',
+    params: {
+      name,
+      id
+    }
+  })
+}

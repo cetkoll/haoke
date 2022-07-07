@@ -12,7 +12,8 @@ export default new Vuex.Store({
     nowCity: '北京',
     nowCityId: 'AREA|88cff55c-aaa4-e2e0',
     activeCity: 'AREA|0dd58113-90ab-4d85',
-    resData: []
+    resData: [],
+    adress: ''
   },
   getters: {
   },
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setResData (state, payload) {
       state.resData = payload
+    },
+    setAdress (state, payload) {
+      state.adress = payload
     }
   },
   actions: {
