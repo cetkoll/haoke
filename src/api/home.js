@@ -45,3 +45,18 @@ export const getAdress = ({ id, name }) => {
     }
   })
 }
+export const updateImage = (File) => {
+  return request({
+    method: 'POST',
+    url: 'houses/image',
+    data: File
+  })
+}
+
+export const houseFile = (data) => {
+  return request({
+    method: 'POST',
+    url: 'user/houses',
+    data
+  })
+}

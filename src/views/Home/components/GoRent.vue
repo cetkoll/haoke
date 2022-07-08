@@ -82,7 +82,9 @@
         </template>
       </van-cell>
       <van-cell title="房屋图像">
-        <template #label> </template>
+        <template #label>
+          <van-uploader :after-read="afterRead" v-model="fileList" multiple
+        /></template>
       </van-cell>
       <van-cell title="房屋配置">
         <template #label>
@@ -121,11 +123,15 @@
         </template>
       </van-cell>
     </van-cell-group>
+    <div class="bottom">
+      <div class="left">取消</div>
+      <div class="right" @click="sure">确定</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { houseParams } from '@/api/home'
+import { houseParams, updateImage, houseFile } from '@/api/home'
 export default {
   async created () {
     try {
@@ -154,13 +160,14 @@ export default {
   },
   data () {
     return {
-      message: '',
-      value: '',
+      fileList: [],
+      message: '', // 描述
+      value: '', // 标题
       doorModel: '请选择',
       floor: '请选择',
       direction: '请选择',
-      money: '',
-      size: '',
+      money: '', // 租金
+      size: '', // 大小
       columns: [], // 三室 roomType
       columns1: [], // 楼层 floor
       columns2: [], // 朝向
@@ -176,11 +183,51 @@ export default {
       beforeColumns1Value: null, // 楼层value
       beforeColumns2Value: null, // 朝向value
       beforeColumns3Value: [], // 配置value
-      supportingValue: ''// 最后发请求的值
-
+      supportingValue: '',
+      desc: '', // 最后发请求的值
+      date: {
+      }
     }
   },
   methods: {
+    async afterRead (file) {
+      try {
+        const formData = new FormData()
+        formData.append('file', file.file)
+        const res = await updateImage(formData)
+        this.fileList.push(res.data.body)
+        this.desc = res.data.body[0]
+        // console.log(this.fileList)
+        // console.log(this.desc)
+        this.fileList.pop()
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async sure () {
+      try {
+        this.date = {
+          title: this.value,
+          description: this.message,
+          houseImg: this.desc,
+          oriented: this.beforeColumns2Value,
+          supporting: this.supportingValue,
+          price: this.money,
+          roomType: this.beforeColumnsValue,
+          size: this.size,
+          floor: this.beforeColumns1Value,
+          community: null
+        }
+        const res = await houseFile(this.date)
+        console.log(res)
+        this.$toast.success('发布成功')
+        this.$router.push('/rent')
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('发布失败')
+      }
+    },
     onLeft () {
       this.$router.back()
       this.$store.commit('setAdress', '')
@@ -214,10 +261,6 @@ export default {
         }
       })
       console.log(this.beforeColumns2Value)
-    },
-    afterRead (file) {
-      // 此时可以自行将文件上传至服务器
-      console.log(file)
     },
     onClick (item, index) {
       this.beforeColumns3[index].active = !this.beforeColumns3[index].active
@@ -271,5 +314,25 @@ export default {
 }
 .active {
   color: #21b97a;
+}
+.bottom {
+  display: flex;
+  width: 100%;
+  height: 45px;
+  .left {
+    flex: 1;
+    text-align: center;
+    line-height: 45px;
+    color: #21b97a;
+    font-size: 15px;
+  }
+  .right {
+    flex: 1;
+    line-height: 45px;
+    text-align: center;
+    background-color: #21b97a;
+    font-size: 15px;
+    color: #fff;
+  }
 }
 </style>
