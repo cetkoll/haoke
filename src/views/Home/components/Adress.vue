@@ -14,7 +14,7 @@
           :title="item.communityName"
           v-for="(item, index) in list"
           :key="index"
-          @click="changeAdress(item.communityName)"
+          @click="changeAdress(item.communityName, item)"
         />
       </van-cell-group>
     </form>
@@ -47,9 +47,10 @@ export default {
         }
       }, 500)
     },
-    changeAdress (item) {
+    changeAdress (item, val) {
       this.value = item
       this.$store.commit('setAdress', item)
+      this.$store.commit('setmyadress', val.community)
       this.$router.back()
     }
   },

@@ -217,7 +217,7 @@ export default {
           roomType: this.beforeColumnsValue,
           size: this.size,
           floor: this.beforeColumns1Value,
-          community: null
+          community: this.$store.state.myadress
         }
         const res = await houseFile(this.date)
         console.log(res)

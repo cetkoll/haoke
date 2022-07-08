@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="list" v-for="(item, index) in list" :key="index">
+    <div
+      class="list"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="goHome(item.houseCode)"
+    >
       <div class="photo">
         <img :src="'http://liufusong.top:8080' + item.houseImg" alt="" />
       </div>
@@ -37,7 +42,13 @@ export default {
   data () {
     return {}
   },
-  methods: {},
+  methods: {
+    goHome (code) {
+      this.$router.push({
+        path: `/details/${code}`
+      })
+    }
+  },
   computed: {},
   watch: {},
   filters: {},

@@ -7,27 +7,46 @@
       @click-left="$router.push('/my')"
     />
     <van-empty
+    v-if="list.length === 0"
       image-size="150"
       class="custom-image"
       image="http://liufusong.top:8080/img/not-found.png"
     />
-    <p class="myReleaseHouse">
+    <p class="myReleaseHouse"  v-if="list.length === 0">
       您还没有房源，去<span class="releaseHouse"> 发布房源 </span>吧~
     </p>
+    <houseList v-else :list="list"></houseList>
   </div>
 </template>
 
 <script>
+import { getMy } from '@/api/my'
+import houseList from '@/components/houseList'
 export default {
-  created () { },
-  data () {
-    return {}
+  created () {
+    this.getMyHouse()
   },
-  methods: {},
+  data () {
+    return {
+      list: []
+    }
+  },
+  methods: {
+    async getMyHouse () {
+      try {
+        const res = await getMy()
+        console.log(res)
+        this.list = res.data.body
+        console.log(this.list)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
   computed: {},
   watch: {},
   filters: {},
-  components: {}
+  components: { houseList }
 }
 </script>
 
