@@ -23,14 +23,18 @@
         <van-icon name="search" />
         <p>请输入小区或地址</p>
       </div>
-      <van-icon name="map-marked" />
+      <van-icon name="map-marked" @click="$router.push('/map')" />
     </div>
     <div class="myPannel">
       <van-grid :border="false">
         <van-grid-item icon="wap-home-o" text="整租"></van-grid-item>
         <van-grid-item icon="friends-o" text="合租" />
         <van-grid-item icon="location-o" text="地图找房" />
-        <van-grid-item icon="home-o" @click="$router.push('/goRent')" text="去出租" />
+        <van-grid-item
+          icon="home-o"
+          @click="$router.push('/goRent')"
+          text="去出租"
+        />
       </van-grid>
     </div>
     <div class="title">

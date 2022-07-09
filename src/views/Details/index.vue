@@ -47,7 +47,7 @@
       </div>
       <div class="map">
         <p>小区<span>天山星城</span></p>
-        <div class="adress">地图</div>
+        <div id="adress">地图</div>
       </div>
       <div class="setion">
         <p>房屋配套</p>
@@ -92,6 +92,7 @@
 
 <script>
 import { getDetails, addLike, delLike } from '@/api/my'
+import AMapLoader from '@amap/amap-jsapi-loader'
 export default {
   async created () {
     try {
@@ -99,9 +100,13 @@ export default {
       this.list = res.data.body
       this.orient = this.list.oriented[0]
       console.log(res)
+      this.initMap()
     } catch (error) {
       console.log(error)
     }
+  },
+  mounted () {
+    // DOM初始化完成进行地图初始化
   },
   data () {
     return {
@@ -132,6 +137,45 @@ export default {
           console.log(error)
         }
       }
+    },
+    initMap () {
+      AMapLoader.load({
+        key: 'bc95edbbb7f3fa40bb524b6edc5d2e9b', // 申请好的Web端开发者Key，首次调用 load 时必填
+        version: '2.0', // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+        plugins: [''] // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+      }).then((AMap) => {
+        const map = new AMap.Map('adress', {
+          viewMode: '3D',
+          zoom: 16,
+          center: [this.list.coord.longitude, this.list.coord.latitude],
+          resizeEnable: true
+        })
+
+        // 创建纯文本标记
+        const text = new AMap.Text({
+          text: this.list.community,
+          anchor: 'center', // 设置文本标记锚点
+          draggable: true,
+          cursor: 'pointer',
+          angle: 10,
+          style: {
+            padding: 0,
+            'margin-bottom': '1rem',
+            'border-radius': '.25rem',
+            'background-color': 'white',
+            'border-width': 0,
+            'box-shadow': '0 2px 6px 0 rgba(114, 124, 245, .5)',
+            'text-align': 'center',
+            'font-size': '20px',
+            color: 'blue'
+          },
+          position: [this.list.coord.longitude, this.list.coord.latitude]
+        })
+
+        text.setMap(map)
+      }).catch(e => {
+        console.log(e)
+      })
     }
   },
   computed: {},
@@ -149,10 +193,9 @@ export default {
 /deep/.van-nav-bar__title {
   font-size: 16px;
 }
-.img {
+img {
   margin-top: 45px;
   height: 252px;
-  width: 100%;
 }
 .top {
   box-sizing: border-box;
@@ -235,9 +278,8 @@ export default {
     font-size: 14px;
     color: #333;
   }
-  .adress {
+  #adress {
     height: 125px;
-    background-color: pink;
   }
 }
 .setion {

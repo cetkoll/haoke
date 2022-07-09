@@ -13,6 +13,7 @@ const City = () => import('@/views/Home/components/City.vue')
 const GoRent = () => import('@/views/Home/components/GoRent.vue')
 const Adress = () => import('@/views/Home/components/Adress.vue')
 const Details = () => import('@/views/Details')
+const Map = () => import('@/views/Map')
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,7 +39,8 @@ const routes = [
   { path: '/city', component: City },
   { path: '/goRent', component: GoRent },
   { path: '/adress', component: Adress },
-  { path: '/details/:houseImg', component: Details }
+  { path: '/details/:houseImg', component: Details },
+  { path: '/map', component: Map }
 ]
 
 const router = new VueRouter({
